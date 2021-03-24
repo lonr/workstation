@@ -1,0 +1,17 @@
+[Default Applications]
+text/plain=code.desktop
+x-scheme-handler/http=google-chrome.desktop
+application/xhtml+xml=google-chrome.desktop
+text/html=google-chrome.desktop
+x-scheme-handler/https=google-chrome.desktop
+
+[Added Associations]
+x-scheme-handler/http=google-chrome.desktop;
+application/xhtml+xml=google-chrome.desktop;
+text/html=google-chrome.desktop;
+x-scheme-handler/https=google-chrome.desktop;
+audio/x-mod=code.desktop;
+x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
+x-scheme-handler/tel=org.gnome.Shell.Extensions.GSConnect.desktop;
+application/xml=code.desktop;
+inode/directory=code.desktop;

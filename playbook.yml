@@ -1,0 +1,19 @@
+---
+- name: Install packages
+  hosts: localhost
+  # ⚠️ Root!!!
+  become: yes
+  roles:
+    - packages
+
+- name:  Restore dotfiles
+  hosts: localhost
+  become: no
+  roles:
+    - dotfiles
+
+- name: Tweak configs
+  hosts: localhost
+  become: no  
+  roles:
+    - tweaks

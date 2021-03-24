@@ -1,0 +1,109 @@
+---
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html
+
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html#local-playbooks
+ansible_connection: local
+ansible_python_interpreter: '{{ ansible_playbook_python }}'
+
+use_proxy: yes
+socks5_proxy: socks5://127.0.0.1:1080
+socks5h_proxy: socks5h://127.0.0.1:1080
+http_proxy: http://127.0.0.1:12333
+proxy_env:
+  # http_proxy: '{{ http_proxy }}'
+  https_proxy: '{{ http_proxy }}'
+  # all_proxy: '{{ socks5h_proxy }}'
+  no_proxy: 'localhost, 127.0.0.0/8, ::1'
+
+node_version: 15
+
+repos_need_proxy:
+  - Visual-Studio-Code
+  - nodesource
+  - yarn
+
+packages_to_install:
+  - gnome-tweaks
+  - dconf-editor
+  # https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation
+  - chrome-gnome-shell
+  - gnome-shell-extension-pomodoro
+  - fish
+  - ibus-rime
+  - google-chrome-stable
+  - code
+  - nodejs
+  - yarn
+  - tilix
+  - nautilus-extensions
+  - nautilus-python
+  - tilix-nautilus
+  - fira-code-fonts
+  # https://wiki.gnome.org/Projects/GTK/Inspector
+  - gtk3-devel
+  - google-roboto-fonts
+  - google-noto-sans-fonts
+  - google-noto-serif-fonts
+  - google-noto-serif-cjk-ttc-fonts
+  # 
+  - telegram-desktop
+
+node_modules_to_install:
+  - zici-cli
+
+gnome_extension_ids:
+  # GSConnect
+  - 1319
+  # clipboard-indicator
+  - 779
+  # AppIndicator and KStatusNotifierItem Support
+  - 615
+
+dconfs:
+  - name: Enable night light
+    key: '/org/gnome/settings-daemon/plugins/color/night-light-enabled'
+    value: 'true'
+  # https://askubuntu.com/questions/1064482/nautilus-show-folders-before-files-does-not-work-in-ubuntu-18-04-lts
+  - name: 'Nautilus: sort folders before files'
+    key: '/org/gtk/settings/file-chooser/sort-directories-first'
+    value: 'true'
+  - name: Show clock weekday
+    key: '/org/gnome/desktop/interface/clock-show-weekday'
+    value: 'true'
+  # - name: Show clock seconds
+  #   key: '/org/gnome/desktop/interface/clock-show-seconds'
+  #   value: 'true'
+  - name: Center new windows
+    key: '/org/gnome/mutter/center-new-windows'
+    value: 'true'
+  - name: Change the text scaling
+    key: '/org/gnome/desktop/interface/text-scaling-factor'
+    value: '1.25'
+  - name: Change GNOME interface font
+    key: '/org/gnome/desktop/interface/font-name'
+    value: "'System-ui 11'"
+  - name: Change GNOME document font
+    key: '/org/gnome/desktop/interface/document-font-name'
+    value: "'Sans 11'"
+  - name: Change GNOME monospace font
+    key: '/org/gnome/desktop/interface/monospace-font-name'
+    value: "'Monospace 10'"
+  - name: Change legacy window titles font
+    key: '/org/gnome/desktop/wm/preferences/titlebar-font'
+    value: "'System-ui 11'"
+  # See tweaks theme.yml
+  - name: Change GNOME Shell theme to Adwaita-One-Dark
+    key: '/org/gnome/shell/extensions/user-theme/name'
+    value: "'Adwaita-One-Dark'"
+  - name: Change GTK theme to Adwaita-One-Dark
+    key: '/org/gnome/desktop/interface/gtk-theme'
+    value: "'Adwaita-One-Dark'"
+  # See dotfiles `files/~/.local/share/gtksourceview-4/styles/onedark.xml`
+  - name: Change Gedit theme to One Dark
+    key: '/org/gnome/gedit/preferences/editor/scheme'
+    value: "'onedark'"
+
+# costume_shortcuts:
+#   - name: Nautilus
+#   - command: "'nautilus -w'"
+#   - shortcut: "'<Super>e'"

@@ -1,0 +1,5 @@
+---
+- name: Restore Tilix config
+  command:
+    cmd: dconf load /com/gexperts/Tilix/
+    stdin: "{{ lookup('file', '../files/tilix.dconf') }}"

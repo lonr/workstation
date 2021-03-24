@@ -1,0 +1,49 @@
+- name: Parse Gnome Shell version
+  shell: |
+    set -o pipefail
+    gnome-shell --version | sed 's/[^0-9.]*\([0-9.]*\).*/\1/'
+  register: gnome_shell_version
+  changed_when: no
+
+- name: Get Gnome Shell extension info
+  uri:
+    url: "https://extensions.gnome.org/extension-info/?pk={{ item }}&shell_version={{ gnome_shell_version.stdout }}"
+    return_content: yes
+  loop: "{{ gnome_extension_ids }}"
+  register: r_gnome_extension_info
+
+- name: Install extensions
+  include_tasks: install_extension.yml
+  vars:
+    gnome_extension_info: "{{ item.json }}"
+  loop: "{{ r_gnome_extension_info.results }}"
+
+- name: Get old GNOME Shell pid
+  command: pidof gnome-shell
+  register: gnome_shell_pid_result
+
+- name: Save old GNOME Shell pid
+  set_fact:
+    old_gnome_shell_pid: "{{ gnome_shell_pid_result.stdout }}"
+
+- name: Restart GNOME Shell
+  command: killall -SIGQUIT gnome-shell
+
+- name: Wait for new GNOME Shell
+  command: pidof gnome-shell
+  register: gnome_shell_pid_result
+  until: gnome_shell_pid_result.stdout != '' and gnome_shell_pid_result.stdout != old_gnome_shell_pid
+  retries: 10
+  delay: 1
+
+- name: Ensure GNOME Shell is started
+  wait_for:
+    timeout: 1
+
+- name: Enable Gnome Shell extension
+  command: gnome-extensions enable {{ gnome_extension_info.uuid }}
+  vars:
+    gnome_extension_info: "{{ item.json }}"
+  loop: "{{ r_gnome_extension_info.results }}"
+  loop_control:
+    label: "{{ item.json.name }}"

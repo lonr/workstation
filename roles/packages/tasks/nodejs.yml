@@ -1,0 +1,32 @@
+---
+# Thanks to https://github.com/geerlingguy/ansible-role-nodejs/blob/master/tasks/setup-RedHat.yml
+# The MIT License (MIT) Copyright (c) 2017 Jeff Geerling
+- name: Import Nodesource RPM key
+  rpm_key:
+    key: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+    state: present
+
+# https://github.com/nodesource/distributions/blob/master/rpm/src/_setup.sh
+- name: Install Node.js Nodesource repo
+  dnf:
+    name: "https://rpm.nodesource.com/pub_{{ node_version }}.x/\
+      fc/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/\
+      nodesource-release-fc{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: present
+
+- name: Ensure Node.js AppStream module is disabled
+  command: dnf module disable -y nodejs
+  args:
+    warn: no
+  register: module_disable
+  changed_when: "'Nothing to do.' not in module_disable.stdout"
+
+# Thanks to https://github.com/fubarhouse/ansible-role-yarn/blob/master/tasks/yarn-RedHat.yml
+# The MIT License (MIT) Copyright (c) 2015 Karl Hepworth
+- name: Install Yarn repo
+  get_url:
+    url: https://dl.yarnpkg.com/rpm/yarn.repo
+    dest: /etc/yum.repos.d/yarn.repo
+    owner: root
+    mode: 0644
+  when: "'yarn' in packages_to_install"

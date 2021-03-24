@@ -1,0 +1,9 @@
+if status --is-interactive
+    abbr --add --global envsp 'env all_proxy="{{ socks5_proxy }}"'
+    abbr --add --global envshp 'env all_proxy="{{ socks5h_proxy }}"'
+    abbr --add --global envhp 'env http_proxy="{{ http_proxy }}"'
+end
+
+if status --is-login
+    set -gx fish_help_browser google-chrome
+end

@@ -1,0 +1,6 @@
+.ssh
+.gnupg
+keyrings
+.pki
+*.rpm
+/test.yml

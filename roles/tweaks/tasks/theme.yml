@@ -1,0 +1,21 @@
+---
+# https://stackoverflow.com/questions/50966777/ansible-download-latest-release-binary-from-github-repo
+- name: Get latest release url
+  uri:
+    url: https://api.github.com/repos/lonr/adwaita-one-dark/releases/latest
+  register: adwaita_one_dark_latest
+  environment:
+    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit) }}'
+
+- name: Ensure GNOME theme directory exists
+  file:
+    path: '{{ ansible_user_dir }}/.local/share/themes/'
+    state: directory
+
+- name: Install Adwaita One Dark theme
+  unarchive:
+    remote_src: yes
+    src: "{{ adwaita_one_dark_latest['json']['assets'][0]['browser_download_url'] }}"
+    dest: '{{ ansible_user_dir }}/.local/share/themes/'
+  environment:
+    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit) }}'

@@ -1,0 +1,21 @@
+[user]
+	name = lonr
+	email = lonr@live.cn
+[core]
+	editor = code --wait
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+[mergetool "vscode"]
+	cmd = "code --wait "
+[color]
+	ui = auto
+[alias]
+	st = status
+	br = branch
+	ci = commit
+	last = log -1 HEAD
+	co = checkout
+[init]
+	defaultBranch = main

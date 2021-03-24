@@ -1,0 +1,68 @@
+[/]
+prompt-on-delete-profile=true
+quake-specific-monitor=0
+
+[profiles]
+default='b94c3b57-2092-4a7f-8809-918cbac56176'
+list=['2b7c4080-0ddd-46c5-8f23-563fd3ba789d', 'b94c3b57-2092-4a7f-8809-918cbac56176']
+
+[profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d]
+visible-name='Default'
+
+[profiles/b94c3b57-2092-4a7f-8809-918cbac56176]
+allow-bold=true
+automatic-switch=@as []
+background-color='#282C34'
+background-transparency-percent=0
+backspace-binding='ascii-delete'
+badge-color='#ffffff'
+badge-color-set=false
+badge-font='Monospace 12'
+badge-position='northeast'
+badge-text=''
+badge-use-system-font=true
+bold-color='#ffffff'
+bold-color-set=false
+bold-is-bright=true
+cell-height-scale=1.0
+cell-width-scale=1.0
+cjk-utf8-ambiguous-width='narrow'
+cursor-background-color='#000000'
+cursor-blink-mode='system'
+cursor-colors-set=false
+cursor-foreground-color='#ffffff'
+cursor-shape='block'
+custom-command=''
+custom-hyperlinks=@as []
+default-size-columns=80
+default-size-rows=24
+delete-binding='delete-sequence'
+dim-transparency-percent=0
+draw-margin=80
+encoding='UTF-8'
+exit-action='close'
+font='Monospace 12'
+foreground-color='#ABB2BF'
+highlight-background-color='#000000'
+highlight-colors-set=false
+highlight-foreground-color='#ffffff'
+login-shell=false
+notify-silence-enabled=false
+notify-silence-threshold=0
+palette=['#282C34', '#BE5046', '#6BAC65', '#D19A66', '#548BE5', '#BB5BC2', '#46A9A1', '#ABB2BF', '#5C6370', '#E06C75', '#98C379', '#E5C07B', '#61AFEF', '#C678DD', '#56B6C2', '#CFD7E6']
+rewrap-on-resize=true
+scroll-on-keystroke=true
+scroll-on-output=false
+scrollback-lines=8192
+scrollback-unlimited=false
+select-by-word-chars='-,./?%&#:_'
+shortcut='disabled'
+show-scrollbar=true
+terminal-bell='sound'
+terminal-title='${id}: ${title}'
+text-blink-mode='always'
+triggers=@as []
+use-custom-command=false
+use-system-font=false
+use-theme-colors=false
+visible-name='One Dark'

@@ -1,0 +1,13 @@
+---
+node_modules_to_install: []
+
+use_proxy: no
+# socks_proxy: socks5://127.0.0.1:1080
+# socks5h_proxy: socks5h://127.0.0.1:1080
+# http_proxy: http://127.0.0.1:12333
+
+dconfs: []
+
+# custom_shortcuts: []
+
+gnome_extension_ids: []

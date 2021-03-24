@@ -1,0 +1,24 @@
+---
+- name: Copy raw dotfiles
+  copy:
+    src: '../files/~/'
+    dest: '{{ ansible_user_dir }}/'
+    mode: 'preserve'
+    backup: yes
+
+# https://stackoverflow.com/questions/41667864/can-the-templates-module-handle-multiple-templates-directories
+# https://serverfault.com/questions/578544/deploying-a-folder-of-template-files-using-ansible
+- name: Create folders for template files
+  file:
+    dest: '{{ ansible_user_dir }}/{{ item.path }}'
+    state: directory
+  with_filetree: '../templates/~'
+  when: item.state == 'directory'
+
+- name: Copy template files in `~`
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ ansible_user_dir }}/{{item.path | dirname }}/{{ item.path | basename | regex_replace("\.j2$", "") }}'
+    backup: yes
+  with_filetree: '../templates/~'
+  when: item.state == 'file'

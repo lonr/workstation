@@ -1,0 +1,50 @@
+---
+# Rime configs ware restored in the `dotfiles` role
+# This task will update part of Rime and restart ibus
+# https://github.com/rime/plum
+- name: Download Plum and install double-pinyin, emoji
+  block:
+    - name: Download the rime-install script
+      get_url:
+        url: https://git.io/rime-install
+        dest: '{{ ansible_user_dir }}/.local/lib/rime-install'
+      register: download_result
+
+    - name: Run the rime-install script to install Plum
+      shell:
+        chdir: '{{ download_result.dest | dirname }}'
+        cmd: 'bash {{ download_result.dest }}'
+
+    - name: Add double pinyin
+      shell:
+        chdir: '{{ download_result.dest | dirname }}/plum'
+        cmd: 'bash rime-install double-pinyin'
+
+    - name: Add Emoji
+      shell:
+        chdir: '{{ download_result.dest | dirname }}/plum'
+        cmd: 'bash rime-install emoji'
+
+    - name: Add Emoji support to double_pinyin_mspy
+      shell:
+        chdir: '{{ download_result.dest | dirname }}/plum'
+        cmd: 'bash rime-install emoji:customize:schema=double_pinyin_mspy'
+
+    - name: Remove the rime-install script
+      file:
+        path: '{{ download_result.dest }}'
+        state: absent
+  environment:
+    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit)}}'
+
+# the psutil module need to be installed. `sudo dnf install python3-psutil`
+- name: Add Rime to input sources
+  community.general.dconf:
+    key: '/org/gnome/desktop/input-sources/sources'
+    value: "[('xkb', 'us'), ('ibus', 'rime')]"
+    state: present
+
+- name: Restart ibus
+  command: ibus restart
+  args:
+    warn: no

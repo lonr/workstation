@@ -1,0 +1,25 @@
+---
+- name: Upgrade all packages
+  dnf:
+    name: '*'
+    state: latest
+  when: update_all
+
+- include_tasks: rpmfusion.yml
+
+- include_tasks: nodejs.yml
+  when: "'node' in packages_to_install"
+
+- include_tasks: vscode.yml
+  when: "'code' in packages_to_install"
+
+- name: Enable proxy for some repos
+  command: dnf config-manager --save --setopt=*.proxy={{ socks5h_proxy }} {{ repos_need_proxy | join(' ') }}
+  args:
+    warn: no
+  when: use_proxy
+
+- name: Install packages
+  dnf:
+    name: '{{ packages_to_install }}'
+# https://github.com/nodesource/distributions/#installation-instructions-1
