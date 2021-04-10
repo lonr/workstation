@@ -4,16 +4,17 @@
   dnf:
     name: fedora-workstation-repositories
     state: present
-# TODO: state changed
 
 - name: Enable some repos above
   command:
     cmd: dnf config-manager --set-enabled google-chrome phracek-PyCharm
     warn: no
 
+# https://github.com/ansible/ansible/issues/19203
 # https://rpmfusion.org/Configuration
 - name: Install RPM Fusion repos
   dnf:
     name: '{{ RPM_fusion_repos }}'
     disable_gpg_check: yes
     state: present
+    validate_certs: no

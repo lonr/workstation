@@ -4,8 +4,6 @@
   uri:
     url: https://api.github.com/repos/lonr/adwaita-one-dark/releases/latest
   register: adwaita_one_dark_latest
-  environment:
-    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit) }}'
 
 - name: Ensure GNOME theme directory exists
   file:
@@ -17,5 +15,3 @@
     remote_src: yes
     src: "{{ adwaita_one_dark_latest['json']['assets'][0]['browser_download_url'] }}"
     dest: '{{ ansible_user_dir }}/.local/share/themes/'
-  environment:
-    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit) }}'

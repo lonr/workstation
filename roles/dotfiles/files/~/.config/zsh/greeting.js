@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// https://stackoverflow.com/questions/21716680/align-unicode-text-in-terminal-window-using-default-monospace-font
 require('https')
   .get('https://apiv3.shanbay.com/weapps/dailyquote/quote/', (resp) => {
     let data = '';

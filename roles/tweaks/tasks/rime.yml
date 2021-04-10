@@ -3,39 +3,22 @@
 # This task will update part of Rime and restart ibus
 # https://github.com/rime/plum
 - name: Download Plum and install double-pinyin, emoji
+  vars:
+    plum_repo: '{{ ansible_user_dir }}/.local/share/plum'
   block:
-    - name: Download the rime-install script
-      get_url:
-        url: https://git.io/rime-install
-        dest: '{{ ansible_user_dir }}/.local/lib/rime-install'
-      register: download_result
+    - name: Clone the plum repo
+      git:
+        repo: https://github.com/rime/plum.git
+        depth: 1
+        dest: '{{ plum_repo }}'
 
-    - name: Run the rime-install script to install Plum
+# https://github.com/rime/plum#advanced-usage
+# https://github.com/rime/rime-emoji
+# https://github.com/rime/rime-emoji/issues/7#issuecomment-557855369
+    - name: Install preset, double pinyin, Emoji
       shell:
-        chdir: '{{ download_result.dest | dirname }}'
-        cmd: 'bash {{ download_result.dest }}'
-
-    - name: Add double pinyin
-      shell:
-        chdir: '{{ download_result.dest | dirname }}/plum'
-        cmd: 'bash rime-install double-pinyin'
-
-    - name: Add Emoji
-      shell:
-        chdir: '{{ download_result.dest | dirname }}/plum'
-        cmd: 'bash rime-install emoji'
-
-    - name: Add Emoji support to double_pinyin_mspy
-      shell:
-        chdir: '{{ download_result.dest | dirname }}/plum'
-        cmd: 'bash rime-install emoji:customize:schema=double_pinyin_mspy'
-
-    - name: Remove the rime-install script
-      file:
-        path: '{{ download_result.dest }}'
-        state: absent
-  environment:
-    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit)}}'
+        chdir: '{{ plum_repo }}'
+        cmd: 'bash rime-install :preset double-pinyin emoji emoji:customize:schema=double_pinyin_mspy'
 
 # the psutil module need to be installed. `sudo dnf install python3-psutil`
 - name: Add Rime to input sources

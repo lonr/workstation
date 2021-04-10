@@ -1,8 +1,10 @@
 ---
 # `ansible-galaxy install -r requirements.yml` to install
+# `ansible-galaxy collection install -r requirements.yml`
 collections:
   - community.general
 
-roles:
+# ansible-galaxy role install -r requirements.yml
+roles: []
   # See modified lib/roles/gnome_extensions
   # - luyz25.gnome_extensions

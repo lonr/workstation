@@ -1,19 +1,24 @@
 ---
 - name: Install packages
   hosts: localhost
+  tags: packages
   # ⚠️ Root!!!
   become: yes
   roles:
     - packages
+  environment:
+    https_proxy: '{{ use_proxy | ternary(proxy_env.https_proxy, omit)}}'
 
 - name:  Restore dotfiles
   hosts: localhost
+  tags: dotfiles
   become: no
   roles:
     - dotfiles
 
 - name: Tweak configs
   hosts: localhost
+  tags: tweaks
   become: no  
   roles:
     - tweaks

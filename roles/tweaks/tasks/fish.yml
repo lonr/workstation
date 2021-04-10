@@ -1,6 +1,0 @@
----
-- name: Change highlighting colors
-  script: '../files/colors.fish'
-
-- name: Add some env vars
-  script: '../files/env.fish'

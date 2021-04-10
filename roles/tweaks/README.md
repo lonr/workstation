@@ -6,3 +6,7 @@ This role contains stuffs that the `dotsfiles` and `packages` role can't do:
 - Download things (like themes)
 - Run some scripts (like `files/env.fish`)
 - Dconf related stuffs
+
+## Usage
+
+`ansible-playbook -i hosts ./playbook.yml -K --tags "tweaks"`

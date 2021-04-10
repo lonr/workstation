@@ -1,0 +1,16 @@
+# https://github.com/ansible/ansible/issues/19203
+# - name: Install gh repo
+#   get_url:
+#     url: https://cli.github.com/packages/rpm/gh-cli.repo
+#     dest: /etc/yum.repos.d/gh-cli.repo
+#     owner: root
+#     mode: 0644
+#   when: "'gh' in packages_to_install"
+
+# https://github.com/cli/cli/blob/trunk/docs/install_linux.md#fedora-centos-red-hat-enterprise-linux-dnf
+
+- name: Install gh repo
+  command: dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+  args:
+    warn: no
+

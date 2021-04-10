@@ -10,46 +10,62 @@ socks5_proxy: socks5://127.0.0.1:1080
 socks5h_proxy: socks5h://127.0.0.1:1080
 http_proxy: http://127.0.0.1:12333
 proxy_env:
-  # http_proxy: '{{ http_proxy }}'
+  http_proxy: '{{ http_proxy }}'
   https_proxy: '{{ http_proxy }}'
-  # all_proxy: '{{ socks5h_proxy }}'
+  all_proxy: '{{ socks5h_proxy }}'
   no_proxy: 'localhost, 127.0.0.0/8, ::1'
 
-node_version: 15
+# https://rpmfusion.org/Configuration
+RPM_fusion_repos:
+  - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm
+  - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm
+# TEMP
+#   - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-branched.noarch.rpm
+#   - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-branched.noarch.rpm
 
-repos_need_proxy:
-  - Visual-Studio-Code
-  - nodesource
-  - yarn
+repos_need_proxy: []
+#  - code
+
+modules_to_enable:
+  - 'nodejs:15'
 
 packages_to_install:
-  - gnome-tweaks
-  - dconf-editor
-  # https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation
-  - chrome-gnome-shell
-  - gnome-shell-extension-pomodoro
-  - fish
-  - ibus-rime
+  # from custom repos
   - google-chrome-stable
   - code
-  - nodejs
-  - yarn
+  - gh
+  
+  # from RPM fusion repos
+  - telegram-desktop
+  
+  # from builtin repos
+  # apps
+  - gnome-shell-extension-pomodoro
+  - ibus-rime
+  # 'default' profile is not marked as default profile ([d] in `sudo dnf module list nodejs`) . nodejs:15
+  # https://bugzilla.redhat.com/show_bug.cgi?id=1669502
+  - '@nodejs/default'
+  - zsh
   - tilix
   - nautilus-extensions
   - nautilus-python
   - tilix-nautilus
-  - fira-code-fonts
+  - python3-psutil
   # https://wiki.gnome.org/Projects/GTK/Inspector
+  # config tools
+  - gnome-tweaks
+  - gnome-extensions-app
+  - dconf-editor
+  # https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation
+  - chrome-gnome-shell
   - gtk3-devel
+  # fonts
+  - fira-code-fonts
   - google-roboto-fonts
   - google-noto-sans-fonts
   - google-noto-serif-fonts
+  # google-noto-sans-cjk-ttc-fonts was installed by default
   - google-noto-serif-cjk-ttc-fonts
-  # 
-  - telegram-desktop
-
-node_modules_to_install:
-  - zici-cli
 
 gnome_extension_ids:
   # GSConnect
@@ -58,6 +74,9 @@ gnome_extension_ids:
   - 779
   # AppIndicator and KStatusNotifierItem Support
   - 615
+
+node_modules_to_install:
+  - zici-cli
 
 dconfs:
   - name: Enable night light
@@ -92,17 +111,16 @@ dconfs:
     key: '/org/gnome/desktop/wm/preferences/titlebar-font'
     value: "'System-ui 11'"
   # See tweaks theme.yml
-  - name: Change GNOME Shell theme to Adwaita-One-Dark
-    key: '/org/gnome/shell/extensions/user-theme/name'
-    value: "'Adwaita-One-Dark'"
-  - name: Change GTK theme to Adwaita-One-Dark
-    key: '/org/gnome/desktop/interface/gtk-theme'
-    value: "'Adwaita-One-Dark'"
-  # See dotfiles `files/~/.local/share/gtksourceview-4/styles/onedark.xml`
-  - name: Change Gedit theme to One Dark
-    key: '/org/gnome/gedit/preferences/editor/scheme'
-    value: "'onedark'"
-
+  # - name: Change GNOME Shell theme to Adwaita-One-Dark
+  #   key: '/org/gnome/shell/extensions/user-theme/name'
+  #   value: "'Adwaita-One-Dark'"
+  # - name: Change GTK theme to Adwaita-One-Dark
+  #   key: '/org/gnome/desktop/interface/gtk-theme'
+  #   value: "'Adwaita-One-Dark'"
+  # # See dotfiles `files/~/.local/share/gtksourceview-4/styles/onedark.xml`
+  # - name: Change Gedit theme to One Dark
+  #   key: '/org/gnome/gedit/preferences/editor/scheme'
+  #   value: "'onedark'"
 # costume_shortcuts:
 #   - name: Nautilus
 #   - command: "'nautilus -w'"

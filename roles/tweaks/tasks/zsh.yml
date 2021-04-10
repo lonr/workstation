@@ -1,0 +1,7 @@
+---
+# https://github.com/zdharma/zinit#option-2---manual-installation
+- name: Install Zinit
+  git:
+    repo: https://github.com/zdharma/zinit.git
+    dest: '{{ ansible_user_dir }}/.config/zsh/.zinit/bin'
+

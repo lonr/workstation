@@ -1,0 +1,8 @@
+---
+# - include_tasks: dconf.yml
+
+# - include_tasks: rime.yml
+#   when: "'ibus-rime' in packages_to_install"
+
+- include_tasks: zsh.yml
+  when: "'zsh' in packages_to_install"
